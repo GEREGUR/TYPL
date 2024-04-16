@@ -5,7 +5,7 @@ import { useState } from "react";
 export const Navbar = () => {
   const [logged, setLogged] = useState("false");
   return (
-    <nav className="w-full h-16 px-4 bg-white font-bold text-2xl flex justify-between items-center text-[#606060] border-b-2 shadow-[rgba(0,0,15,0.5)_10px_5px_4px_0px]">
+    <nav className="w-full h-16 px-4 bg-white font-bold text-2xl flex justify-between items-center text-[#606060] shadow-md">
       {!logged ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"

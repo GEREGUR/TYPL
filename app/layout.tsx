@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-slate-200 h-full">
+    <html lang="en" className="bg-slate-200">
       <body className={inter.className}>
         <Navbar />
         {children}

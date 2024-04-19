@@ -26,7 +26,7 @@ export const Navbar = () => {
       ) : (
         <div></div>
       )}
-      <h1>TYPL: Test your psychological level</h1>
+      <span>TYPL: Test your psychological level</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

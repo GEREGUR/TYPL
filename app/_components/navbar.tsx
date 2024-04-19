@@ -28,7 +28,7 @@ export const Navbar = () => {
         <div></div>
       )}
       <span className="text-2xl">TYPL: Test your psychological level</span>
-      <Select>
+      <Select className="size-24">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

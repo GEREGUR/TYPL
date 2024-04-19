@@ -1,49 +1,51 @@
 "use client";
 import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const router = useRouter();
 
-  const handleSignUp = async () => {
+  const handleSignIn = async () => {
     try {
-      const res = await createUserWithEmailAndPassword(email, password);
+      const res = await signInWithEmailAndPassword(email, password);
       console.log({ res });
       sessionStorage.setItem("user", "true");
       setEmail("");
       setPassword("");
+      router.push("/main");
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-200">
-      <div className="bg-white p-10 rounded-xl shadow-2xl w-96">
-        <h1 className="text-[#606060] font-bold text-center text-4xl mb-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="bg-gray-800 p-10 rounded-lg text-xl shadow-xl w-96">
+        <h1 className="text-white text-4xl mb-10 font-bold text-center">
           Авторизация
         </h1>
         <input
           type="email"
-          placeholder="Логин"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full text-lg p-3 mb-4 bg-[#EAEAEA] rounded outline-none text-slate-700 placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-gray-700 rounded outline-none text-white placeholder-gray-500"
         />
         <input
           type="password"
-          placeholder="Пароль"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full text-lg p-3 mb-4 bg-[#EAEAEA] rounded outline-none text-slate-700 placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-gray-700 rounded outline-none text-white placeholder-gray-500"
         />
         <button
-          onClick={handleSignUp}
-          className="w-full text-lg p-3 my-4 bg-indigo-600 hover:bg-red-500 rounded text-white duration-300"
+          onClick={handleSignIn}
+          className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
         >
           Войти
         </button>

@@ -1,22 +1,40 @@
 "use client";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+
 import { useRouter } from "next/navigation";
-import { signOut } from "firebase/auth";
 
 export default function Home() {
-  const [user] = useAuthState(auth);
   const router = useRouter();
-  const userSession = sessionStorage.getItem("user");
-
-  console.log({ user });
-
-  if (!user && !userSession) {
-    router.push("/auth/sign-up");
-  }
   return (
-    <section className="w-[100vh] h-screen bg-slate-200 flex items-center justify-center">
-      <button onClick={() => signOut(auth)}>Выйти</button>
-    </section>
+    <main className="w-full min-h-[80vh] flex flex-col items-center justify-center gap-6">
+      <button
+        onClick={() => {
+          router.push("/profile");
+        }}
+      >
+        <span>Профиль</span>
+      </button>
+      <ul className="flex gap-4">
+        <li>
+          <button
+            className="border-2 border-slate-200 shadow-md px-2 py-1 text-center rounded-md"
+            onClick={() => {
+              router.push("/auth/sign-in");
+            }}
+          >
+            <span>Войти</span>
+          </button>
+        </li>
+        <li>
+          <button
+            className="border-2 border-slate-200 shadow-md px-2 py-1 text-center rounded-md"
+            onClick={() => {
+              router.push("/auth/sign-up");
+            }}
+          >
+            <span>Регистрация</span>
+          </button>
+        </li>
+      </ul>
+    </main>
   );
 }

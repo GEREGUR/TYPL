@@ -1,3 +1,7 @@
+"use client";
+
+import { signOut, signIn, useSession } from "next-auth/react";
+
 interface User {
   name: string;
   secondName: string;
@@ -7,6 +11,18 @@ interface User {
 }
 
 const Profile = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    // If the user is not authenticated, redirect them to the sign-in page
+    signIn();
+    return <div>Redirecting...</div>;
+  }
+
   let user: User = {
     name: "Егор",
     secondName: "Рубайло",
@@ -26,6 +42,9 @@ const Profile = () => {
           {user.studyGroup}
         </li>
       </ul>
+      <button onClick={() => signOut()} className="size-10">
+        Выйти
+      </button>
     </div>
   );
 };

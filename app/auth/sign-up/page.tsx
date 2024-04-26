@@ -122,6 +122,7 @@ const SignUp = () => {
         </button>
         <Button
           variant={"ghost"}
+          type="button"
           onClick={() => {
             router.push("/auth/sign-in");
           }}

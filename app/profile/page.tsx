@@ -45,6 +45,7 @@ const Profile = () => {
       <button onClick={() => signOut()} className="size-10">
         Выйти
       </button>
+      <div></div>
     </div>
   );
 };

@@ -21,8 +21,8 @@ interface Test {
 export interface Block {
   blockID: number;
   blockName: string;
-  blockDescription: string;
-  bgColor: string;
+  blockDescription?: string;
+  bgColor?: string;
 }
 
 const ExtraBlock = ({

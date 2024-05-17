@@ -52,7 +52,7 @@ function SignIn() {
         />
         <button
           type="submit"
-          className="w-full p-3 text-md my-4 bg-indigo-600 hover:bg-red-500 rounded text-white duration-200"
+          className="w-full p-3 text-md my-4 bg-[#FE7777] hover:bg-[#399ED8] rounded text-white duration-300"
         >
           Войти
         </button>
@@ -61,7 +61,7 @@ function SignIn() {
           onClick={() => {
             router.push("/auth/sign-up");
           }}
-          className="duration-300 hover:bg-indigo-600 text-indigo-600 hover:text-white"
+          className="duration-300 text-[#399ED8] hover:bg-transparent hover:underline hover:text-[#FE7777]"
         >
           Регистрация
         </Button>

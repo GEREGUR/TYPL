@@ -1,58 +1,47 @@
-interface Block {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl?: string;
-}
-
+import { Block } from "../profile/page";
 const blocks: Block[] = [
   {
-    id: 1,
-    title: "Block 1",
-    description: "Description of Block 1",
-    imageUrl: "/images/block1.jpg",
+    blockID: 101,
+    blockName: "Block 1",
+    blockDescription: "Lorem ipsum ada love react with all my heart",
+    bgColor: "bg-red-200",
   },
   {
-    id: 2,
-    title: "Block 2",
-    description: "Description of Block 2",
-    imageUrl: "/images/block2.jpg",
+    blockID: 102,
+    blockName: "Block 2",
+    blockDescription: "Lorem ipsum ada love react with all my heart",
+    bgColor: "bg-blue-200",
   },
   {
-    id: 3,
-    title: "Block 3",
-    description: "Description of Block 3",
-    imageUrl: "/images/block3.jpg",
+    blockID: 103,
+    blockName: "Block 3",
+    blockDescription: "Lorem ipsum ada love react with all my heart",
+    bgColor: "bg-green-200",
   },
   {
-    id: 4,
-    title: "Block 4",
-    description: "Description of Block 4",
-    imageUrl: "/images/block4.jpg",
+    blockID: 104,
+    blockName: "Block 4",
+    blockDescription: "Lorem ipsum ada love react with all my heart",
+    bgColor: "bg-yellow-200",
   },
 ];
 
-import React from "react";
-
 const HeroSection: React.FC = () => {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-4 p-4">
-      {blocks.map((block) => (
-        <div
-          key={block.id}
-          className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
-        >
-          {block.imageUrl && (
-            <img
-              src={block.imageUrl}
-              alt={block.title}
-              className="w-full h-40 object-cover rounded-t-lg"
-            />
-          )}
-          <h2 className="text-xl font-bold mt-2">{block.title}</h2>
-          <p className="text-gray-600">{block.description}</p>
-        </div>
-      ))}
+    <div className="container flex items-center justify-center md:mt-24">
+      <div className="grid grid-cols-1 align-middle md:grid-cols-2 gap-4 p-4">
+        {blocks.map((block) => (
+          <div
+            key={block.blockID}
+            className={`${block.bgColor} shadow-lg rounded-lg p-4 flex flex-col items-center w-full h-64`}
+          >
+            <h2 className="text-xl font-bold mt-2">{block.blockName}</h2>
+            <p className="text-gray-700 text-center">
+              {block.blockDescription}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

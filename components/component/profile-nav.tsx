@@ -61,7 +61,7 @@ export function ProfileNav() {
   );
 }
 
-function ChevronDownIcon(props) {
+function ChevronDownIcon(props: any) {
   return (
     <svg
       {...props}

@@ -80,7 +80,7 @@ function ChevronDownIcon(props) {
   );
 }
 
-function LogOutIcon(props) {
+function LogOutIcon(props: any) {
   return (
     <svg
       {...props}
@@ -101,7 +101,7 @@ function LogOutIcon(props) {
   );
 }
 
-function UserIcon(props) {
+function UserIcon(props: any) {
   return (
     <svg
       {...props}

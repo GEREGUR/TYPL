@@ -47,9 +47,9 @@ const Profile = () => {
   );
 
   let user: User = {
-    name: "Егор",
-    secondName: "Рубайло",
-    surname: "Васильевич",
+    name: "Иванов",
+    secondName: "Иван",
+    surname: "Иванович",
     studyGroup: 11,
     login: "geregur",
   };

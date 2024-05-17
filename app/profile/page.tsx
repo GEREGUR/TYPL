@@ -23,6 +23,7 @@ export interface Block {
   blockName: string;
   blockDescription?: string;
   bgColor?: string;
+  bgImage?: string;
 }
 
 const ExtraBlock = ({

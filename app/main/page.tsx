@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Block } from "../profile/page";
+import Link from "next/link";
 
 const blocks: Block[] = [
   {
@@ -37,27 +38,29 @@ const HeroSection: React.FC = () => {
     <div className="container flex items-center justify-center md:mt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
         {blocks.map((block) => (
-          <div
-            key={block.blockID}
-            className={`${block.bgColor} shadow-lg rounded-lg p-4 text-white flex flex-col justify-between w-full h-64 relative`}
-          >
-            <div className="flex flex-col items-start">
-              <h2 className="text-xl font-bold mt-2">{block.blockName}</h2>
-              <p>{block.blockDescription}</p>
-            </div>
-            {block.bgImage && (
-              <div className="absolute bottom-4 right-4">
-                <Image
-                  src={block.bgImage}
-                  alt={block.blockName}
-                  width={100}
-                  height={100}
-                  className="rounded-lg"
-                  style={{ objectFit: "cover" }}
-                />
+          <Link href={`/test/${block.blockID}`}>
+            <div
+              key={block.blockID}
+              className={`${block.bgColor} shadow-lg rounded-lg p-4 text-white flex flex-col justify-between w-full h-64 relative`}
+            >
+              <div className="flex flex-col items-start">
+                <h2 className="text-xl font-bold mt-2">{block.blockName}</h2>
+                <p>{block.blockDescription}</p>
               </div>
-            )}
-          </div>
+              {block.bgImage && (
+                <div className="absolute bottom-4 right-4">
+                  <Image
+                    src={block.bgImage}
+                    alt={block.blockName}
+                    width={100}
+                    height={100}
+                    className="rounded-lg"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              )}
+            </div>
+          </Link>
         ))}
       </div>
     </div>

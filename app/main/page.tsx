@@ -1,8 +1,8 @@
+// components/HeroSection.tsx
 import Image from "next/image";
-import { Block } from "../profile/page";
 import Link from "next/link";
 
-const blocks: Block[] = [
+const blocks = [
   {
     blockID: 101,
     blockName: "Block 1",
@@ -38,9 +38,8 @@ const HeroSection: React.FC = () => {
     <div className="container flex items-center justify-center md:mt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
         {blocks.map((block) => (
-          <Link href={`/test/${block.blockID}`}>
+          <Link href={`/test/${block.blockID}`} key={block.blockID}>
             <div
-              key={block.blockID}
               className={`${block.bgColor} shadow-lg rounded-lg p-4 text-white flex flex-col justify-between w-full h-64 relative`}
             >
               <div className="flex flex-col items-start">

@@ -3,8 +3,8 @@ export interface User {
   surname: string;
   name: string;
   secondName: string | null;
-  studyGroup: string;
   login: string;
+  studyGroup: string;
   password: string;
   createdAt: Date;
   updatedAt: Date;

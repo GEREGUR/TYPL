@@ -1,4 +1,3 @@
-// src/app/profile/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,38 +8,51 @@ import { JwtPayload } from "@/types/types";
 
 const ProfilePage = () => {
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
+      console.log("Token from localStorage:", token); // Debug log
+
       if (!token) {
+        console.log("Token not found, redirecting to login.");
         router.push("/login");
         return;
       }
 
       try {
-        const decoded = jwtDecode<JwtPayload>(token);
+        console.log("Token found:", token);
+        const decoded: JwtPayload = jwtDecode(token);
+        console.log("Decoded token:", decoded);
         const userId = decoded.userId;
+        console.log("User ID from token:", userId);
 
         const response = await axios.get(`/api/user/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
+        console.log("Response from API:", response.data);
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
         router.push("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, [router]);
 
-  if (!user) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+
+  if (!user) return <div>User not found</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-6 bg-white rounded shadow-md w-96">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+      <div className="w-96 rounded bg-white p-6 shadow-md">
         <h1 className="mb-4 text-2xl font-bold">Profile</h1>
         <p>
           <strong>Name:</strong> {user.name}

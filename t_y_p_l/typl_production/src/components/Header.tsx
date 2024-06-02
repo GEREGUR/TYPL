@@ -26,33 +26,49 @@ const Header = () => {
     router.push("/login");
   };
 
+  const handleSignUp = () => {
+    router.push("/signup");
+  };
+
   return (
-    <header className="flex items-center justify-between w-full px-4 py-2 bg-blue-500">
-      <h1 className="text-2xl font-bold text-white">TYPL</h1>
-      <div>
-        {isLoggedIn ? (
-          <>
-            <button
-              onClick={handleProfile}
-              className="px-4 py-2 mr-2 text-white bg-blue-700 rounded hover:bg-blue-900"
-            >
-              Account
-            </button>
-            <button
-              onClick={handleSignOut}
-              className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
-            >
-              Sign Out
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={handleLogin}
-            className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700"
-          >
-            Login
-          </button>
-        )}
+    <header className="bg-base-100 p-4 shadow-lg">
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="flex-1">
+          <a className="text-3xl font-extrabold text-black">TYPL</a>
+        </div>
+        <div className="flex-none">
+          {isLoggedIn ? (
+            <>
+              <button
+                onClick={handleProfile}
+                className="mx-2 border-none text-black transition duration-300 ease-in-out hover:bg-gray-200"
+              >
+                Account
+              </button>
+              <button
+                onClick={handleSignOut}
+                className="mx-2 border-none text-black transition duration-300 ease-in-out hover:bg-gray-200"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={handleLogin}
+                className="mx-2 border-none text-black transition duration-300 ease-in-out hover:bg-gray-200"
+              >
+                Login
+              </button>
+              <button
+                onClick={handleSignUp}
+                className="mx-2 border-none text-black transition duration-300 ease-in-out hover:bg-gray-200"
+              >
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

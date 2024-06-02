@@ -1,4 +1,3 @@
-// app/api/login/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -13,7 +12,7 @@ export async function POST(req: NextRequest) {
     if (!login || !password) {
       return NextResponse.json(
         { error: "Missing login or password" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json(
         { error: "Invalid login credentials" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest) {
     console.error("Error during login:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

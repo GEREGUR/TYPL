@@ -10,39 +10,25 @@ export async function POST(req: NextRequest) {
     const { surname, name, secondName, studyGroup, login, password } =
       await req.json();
 
-    console.log("Received data:", {
-      surname,
-      name,
-      secondName,
-      studyGroup,
-      login,
-      password,
-    });
-
     if (!surname || !name || !studyGroup || !login || !password) {
-      console.log("Missing required fields");
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { login },
     });
 
     if (existingUser) {
-      console.log("User already exists:", login);
       return NextResponse.json(
         { error: "User already exists" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Hashed password:", hashedPassword);
 
     const user = await prisma.user.create({
       data: {
@@ -55,20 +41,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Create JWT token
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
       expiresIn: "1h",
     });
 
-    console.log("User created successfully:", user);
-    console.log("Generated token:", token);
+    const response = NextResponse.json({ token }, { status: 201 });
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: false,
+      path: "/",
+    });
 
-    return NextResponse.json({ token }, { status: 201 });
+    return response;
   } catch (error) {
     console.error("Error creating user:", error);
     return NextResponse.json(
       { error: "User creation failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

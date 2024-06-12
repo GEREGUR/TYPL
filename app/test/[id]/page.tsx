@@ -1,12 +1,30 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const mockData = {
+interface Question {
+  question: string;
+  answer: string;
+}
+
+interface Block {
+  name: string;
+  title: string;
+  description: string;
+  questions: Question[];
+  color: string;
+}
+
+const mockData: { [key: string]: Block } = {
   101: {
     name: "Block 1",
     title: "Формирование культурно-бытовых ценностей",
     description: "Организованный ли вы человек?",
-    questions: [{ question: "Is this a test question?", answer: "да" }],
+    questions: [
+      { question: "Is this a test question?", answer: "да" && "нет" },
+    ],
     color: "bg-[#FED7AA]",
   },
   102: {
@@ -32,16 +50,21 @@ const mockData = {
   },
 };
 
-export async function generateStaticParams() {
-  return Object.keys(mockData).map((id) => ({ id }));
-}
+// export async function generateStaticParams() {
+//   return Object.keys(mockData).map((id) => ({ id }));
+// }
 
 export default function TestPage({ params }: { params: { id: string } }) {
   const block = mockData[params.id];
+  const router = useRouter();
 
   if (!block) {
     notFound();
   }
+
+  const handleStartTest = () => {
+    router.push(`/test/${params.id}/inProgress`);
+  };
 
   return (
     <div
@@ -52,6 +75,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
       <Button
         className="bg-black/15 shadow-md w-48 text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
         variant={"ghost"}
+        onClick={handleStartTest}
       >
         Пройти
       </Button>
@@ -62,17 +86,6 @@ export default function TestPage({ params }: { params: { id: string } }) {
         своими делами и ресурсами, а также выявить области, в которых вы можете
         улучшить свои навыки хозяйственности.
       </p>
-      {/* <div>
-        <h2>Questions:</h2>
-        <ul>
-          {block.questions.map((q: any, index: any) => (
-            <li key={index}>
-              <p>{q.question}</p>
-              <p>Answer: {q.answer}</p>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 }

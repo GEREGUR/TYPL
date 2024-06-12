@@ -9,7 +9,7 @@ export default function Home() {
       <ul className="gap-4 grid grid-cols-2">
         <li>
           <button
-            className="border-2 border-slate-200/35 w-32 bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
+            className="border-2 border-slate-200/35 w-32 hover:shadow-xl bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
               router.push("/auth/sign-in");
             }}
@@ -19,7 +19,7 @@ export default function Home() {
         </li>
         <li>
           <button
-            className="border-2 border-slate-200/35 w-32 bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
+            className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
               router.push("/auth/sign-up");
             }}
@@ -29,7 +29,7 @@ export default function Home() {
         </li>
         <li>
           <button
-            className="border-2 border-slate-200/35 w-32 bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
+            className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
               router.push("/profile");
             }}
@@ -39,7 +39,7 @@ export default function Home() {
         </li>
         <li>
           <button
-            className="border-2 border-slate-200/35 w-32 bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
+            className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
               router.push("/main");
             }}

@@ -5,32 +5,32 @@ import Link from "next/link";
 const blocks = [
   {
     blockID: 101,
-    blockName: "Block 1",
-    blockDescription: "Lorem ipsum ada love react with all my heart",
+    blockName: "Блок 1",
+    blockDescription: "Формирование мировоззренческих основ личности",
     bgColor: "bg-orange-200",
-    bgImage: "/public/блок1.png",
+    // bgImage: "/public/блок1.png",
   },
-  {
-    blockID: 102,
-    blockName: "Block 2",
-    blockDescription: "Lorem ipsum ada love react with all my heart",
-    bgColor: "bg-rose-200",
-    bgImage: "/public/блок2.png",
-  },
-  {
-    blockID: 103,
-    blockName: "Block 3",
-    blockDescription: "Lorem ipsum ada love react with all my heart",
-    bgColor: "bg-blue-200",
-    bgImage: "/public/блок3.png",
-  },
-  {
-    blockID: 104,
-    blockName: "Block 4",
-    blockDescription: "Lorem ipsum ada love react with all my heart",
-    bgColor: "bg-green-200",
-    bgImage: "/public/блок4.png",
-  },
+  // {
+  //   blockID: 102,
+  //   blockName: "Block 2",
+  //   blockDescription: "Lorem ipsum ada love react with all my heart",
+  //   bgColor: "bg-rose-200",
+  //   bgImage: "/public/блок2.png",
+  // },
+  // {
+  //   blockID: 103,
+  //   blockName: "Block 3",
+  //   blockDescription: "Lorem ipsum ada love react with all my heart",
+  //   bgColor: "bg-blue-200",
+  //   bgImage: "/public/блок3.png",
+  // },
+  // {
+  //   blockID: 104,
+  //   blockName: "Block 4",
+  //   blockDescription: "Lorem ipsum ada love react with all my heart",
+  //   bgColor: "bg-green-200",
+  //   bgImage: "/public/блок4.png",
+  // },
 ];
 
 const HeroSection: React.FC = () => {
@@ -46,7 +46,7 @@ const HeroSection: React.FC = () => {
                 <h2 className="text-xl font-bold mt-2">{block.blockName}</h2>
                 <p>{block.blockDescription}</p>
               </div>
-              {block.bgImage && (
+              {/* {block.bgImage && (
                 <div className="absolute bottom-4 right-4">
                   <Image
                     src={block.bgImage}
@@ -57,7 +57,7 @@ const HeroSection: React.FC = () => {
                     style={{ objectFit: "cover" }}
                   />
                 </div>
-              )}
+              )} */}
             </div>
           </Link>
         ))}

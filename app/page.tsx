@@ -11,7 +11,7 @@ export default function Home() {
           <button
             className="border-2 border-slate-200/35 w-32 hover:shadow-xl bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
-              router.push("/auth/sign-in");
+              router.push("/client/auth/sign-in");
             }}
           >
             <span>Войти</span>
@@ -21,7 +21,7 @@ export default function Home() {
           <button
             className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
-              router.push("/auth/sign-up");
+              router.push("/client/auth/sign-up");
             }}
           >
             <span>Регистрация</span>
@@ -31,7 +31,7 @@ export default function Home() {
           <button
             className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
-              router.push("/profile");
+              router.push("/client/profile");
             }}
           >
             <span>Профиль</span>
@@ -41,7 +41,7 @@ export default function Home() {
           <button
             className="border-2 border-slate-200/35 w-32 hover:shadow-lg bg-white hover:opacity-65 duration-300 shadow-md px-2 py-1 text-center rounded-md"
             onClick={() => {
-              router.push("/main");
+              router.push("/client/main");
             }}
           >
             <span>Главная</span>

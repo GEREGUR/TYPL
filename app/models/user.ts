@@ -15,7 +15,7 @@ const userSchema = new Schema(
       required: false,
     },
     studyGroup: {
-      type: Number,
+      type: String,
       required: true,
     },
     login: {

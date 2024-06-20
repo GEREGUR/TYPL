@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "./_components/navbar";
-import { AuthProvider } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-slate-200 text-[#606060]">
-      <body className={inter.className}>
-        <AuthProvider>
-          <Navbar />
-          {children}
-        </AuthProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

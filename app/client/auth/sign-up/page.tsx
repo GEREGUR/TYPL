@@ -8,7 +8,7 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [secondName, setSecondName] = useState("");
   const [surname, setSurname] = useState("");
-  const [studyGroup, setStudyGroup] = useState(1);
+  const [studyGroup, setStudyGroup] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -52,7 +52,7 @@ const SignUp = () => {
       if (res.ok) {
         formRef.current?.reset();
         console.log("Registration completed");
-        router.push("/auth/sign-in");
+        router.push("/client/auth/sign-in");
       } else {
         console.log("Registration failed");
       }
@@ -93,10 +93,10 @@ const SignUp = () => {
           className="w-full p-2 bg-[#EAEAEA] focus:placeholder-opacity-0 rounded outline-none text-slate-700 placeholder-gray-500"
         />
         <input
-          type="number"
+          type="text"
           placeholder="Учебная группа"
           value={studyGroup}
-          onChange={(e) => setStudyGroup(e.target.valueAsNumber)}
+          onChange={(e) => setStudyGroup(e.target.value)}
           className="w-full p-2 bg-[#EAEAEA] focus:placeholder-opacity-0 rounded outline-none text-slate-700 placeholder-gray-500"
         />
         <input
@@ -124,7 +124,7 @@ const SignUp = () => {
           variant={"ghost"}
           type="button"
           onClick={() => {
-            router.push("/auth/sign-in");
+            router.push("/client/auth/sign-in");
           }}
           className=" duration-300 hover:bg-indigo-600 text-indigo-600 hover:text-white"
         >

@@ -10,7 +10,6 @@ export const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -28,13 +27,15 @@ export const Navbar = () => {
   }, []);
 
   const handleProfileClick = () => {
-    router.push("/profile");
+    router.push("/client/profile");
     console.log("Profile clicked");
     setDropdownOpen(false);
   };
 
   const handleLogoutClick = () => {
     // Handle logout click
+    router.push("/client/auth/sign-in");
+    setDropdownOpen(false);
     console.log("Logout clicked");
   };
 

@@ -32,12 +32,12 @@ export async function POST(req: NextRequest | Request) {
 
     return NextResponse.json(
       { message: "User was registered" },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (error) {
     return NextResponse.json(
       { message: "User was not registered" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

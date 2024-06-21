@@ -9,9 +9,11 @@ const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {},
-
-      authorize: async (credentials: any) => {
-        const { login, password } = credentials;
+      authorize: async (credentials) => {
+        const { login, password } = credentials as {
+          login: string;
+          password: string;
+        };
 
         try {
           await connectMongoDB();
@@ -25,15 +27,37 @@ const authOptions: NextAuthOptions = {
             return null;
           }
 
-          return user;
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            login: user.login,
+            secondName: user.secondName,
+            surname: user.surname,
+            studyGroup: user.studyGroup,
+          };
         } catch (error) {
           console.log(error);
+          return null;
         }
       },
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (token.user) {
+        session.user = token.user;
+      }
+      return session;
+    },
+  },
   session: {
-    strategy: "jwt" as const,
+    strategy: "jwt",
   },
   secret: process.env.NEXT_AUTH_SECRET,
   pages: {

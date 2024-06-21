@@ -63,7 +63,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
   }
 
   const handleStartTest = () => {
-    router.push(`/test/${params.id}/inProgress`);
+    router.push(`${params.id}/inProgress`);
   };
 
   return (

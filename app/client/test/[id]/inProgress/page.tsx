@@ -181,7 +181,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
         </h1>
       )}
 
-      <div className="bg-white/10 p-4 md:p-6 lg:p-8 rounded-lg shadow-md w-full md:w-3/4 lg:w-2/3 text-left">
+      <div className="bg-white/10 p-4 md:p-6 lg:p-8 rounded-lg shadow-xl border border-black/15 w-full md:w-3/4 lg:w-2/3 text-left">
         <p className="text-xl md:text-2xl lg:text-3xl">
           {currentQuestion.question}
         </p>
@@ -235,7 +235,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
       <div className="flex justify-between w-full px-4 md:px-24 mt-8">
         <Button
-          className="bg-black/15 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
+          className="bg-black/35 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
           variant={"ghost"}
           onClick={handlePreviousQuestion}
           disabled={currentQuestionIndex === 0}
@@ -243,7 +243,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
           Назад
         </Button>
         <Button
-          className="bg-black/15 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
+          className="bg-black/35 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/55 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
           variant={"ghost"}
           onClick={handleNextQuestion}
           disabled={!currentAnswer}

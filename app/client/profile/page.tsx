@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 import { ReactNode, useState } from "react";
 
 interface User {
@@ -46,13 +47,13 @@ const Profile = () => {
     "Пройденные"
   );
 
-  let user: User = {
-    name: "Иванов",
-    secondName: "Иван",
-    surname: "Иванович",
-    studyGroup: 11,
-    login: "geregur",
-  };
+  // let user: User = {
+  //   name: "Иванов",
+  //   secondName: "Иван",
+  //   surname: "Иванович",
+  //   studyGroup: 11,
+  //   login: "geregur",
+  // };
 
   const mockTests: Test[] = [
     { testID: 1, status: "Пройденные", name: "Test 1", blockID: 101 },
@@ -78,6 +79,18 @@ const Profile = () => {
       tests: filteredTests.filter((test) => test.blockID === block.blockID),
     }))
     .filter(({ tests }) => tests.length > 0); // Filter out blocks with no tests
+
+  const { data: session } = useSession();
+
+  if (!session || !session.user) {
+    return <div>Loading...</div>;
+  }
+
+  const user = session.user;
+
+  console.log(session);
+
+  console.log(user);
 
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center gap-12 p-4">

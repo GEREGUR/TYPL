@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 export const Navbar = () => {
-  const [logged, setLogged] = useState(true); // Updated to use boolean
+  const session = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -32,8 +33,8 @@ export const Navbar = () => {
     setDropdownOpen(false);
   };
 
-  const handleLogoutClick = () => {
-    // Handle logout click
+  const handleLogoutClick = async () => {
+    await signOut({ redirect: false });
     router.push("/client/auth/sign-in");
     setDropdownOpen(false);
     console.log("Logout clicked");
@@ -66,7 +67,7 @@ export const Navbar = () => {
       <Link href="/">
         <span className="text-2xl">TYPL: Test your psychological level</span>
       </Link>
-      {logged ? (
+      {session.status === "authenticated" ? (
         <div className="relative dropdown-button">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}

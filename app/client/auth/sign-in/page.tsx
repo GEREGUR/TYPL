@@ -20,7 +20,7 @@ function SignIn() {
         redirect: false,
       });
 
-      router.push("/main");
+      router.push("/client/profile");
     } catch (error) {
       alert: "Неверные данные";
       return;

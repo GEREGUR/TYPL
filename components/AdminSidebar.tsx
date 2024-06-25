@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const AdminSidebar = () => {
   return (
-    <aside className="w-64 h-screen bg-gray-800 text-white">
+    <aside className="h-screen w-64 bg-gray-800 text-white">
       <div className="p-4"></div>
       <nav className="mt-8">
         <ul>

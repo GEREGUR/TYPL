@@ -35,25 +35,17 @@ const ExtraBlock = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="bg-[#FAFAFA] p-4 rounded-md shadow-md w-2/3">
-      <h2 className="font-bold mb-4 text-start">{title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
+    <div className="w-2/3 rounded-md bg-[#FAFAFA] p-4 shadow-md">
+      <h2 className="mb-4 text-start font-bold">{title}</h2>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{children}</div>
     </div>
   );
 };
 
 const Profile = () => {
   const [selected, setSelected] = useState<"Пройденные" | "В процессе">(
-    "Пройденные"
+    "Пройденные",
   );
-
-  // let user: User = {
-  //   name: "Иванов",
-  //   secondName: "Иван",
-  //   surname: "Иванович",
-  //   studyGroup: 11,
-  //   login: "geregur",
-  // };
 
   const mockTests: Test[] = [
     { testID: 1, status: "Пройденные", name: "Test 1", blockID: 101 },
@@ -93,8 +85,8 @@ const Profile = () => {
   console.log(user);
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center gap-12 p-4">
-      <ul className="flex flex-col text-center font-bold gap-5 text-xl">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center p-4">
+      <ul className="flex flex-col gap-5 text-center text-xl font-bold">
         <li className="flex flex-col">
           <span className="text-[#5595F5]">Имя пользователя: </span>
           {user.secondName} {user.name} {user.surname}
@@ -104,9 +96,9 @@ const Profile = () => {
           {user.studyGroup}
         </li>
       </ul>
-      <div className="text-center w-full">
-        <p className="font-bold text-xl p-4">Тесты</p>
-        <ul className="flex flex-wrap justify-center items-center gap-4 mb-8">
+      <div className="w-full text-center">
+        <p className="p-4 text-xl font-bold text-[#5595F5]">Тесты</p>
+        <ul className="mb-8 flex flex-wrap items-center justify-center gap-4">
           <li>
             <Button
               variant={"ghost"}
@@ -130,11 +122,11 @@ const Profile = () => {
             </Button>
           </li>
         </ul>
-        <div className="w-full flex flex-col items-center justify-center gap-4">
+        <div className="flex w-full flex-col items-center justify-center gap-4">
           {testsByBlocks.map(({ block, tests }) => (
             <ExtraBlock key={block.blockID} title={block.blockName}>
               {tests.map((test) => (
-                <div key={test.testID} className="p-2 bg-white shadow rounded">
+                <div key={test.testID} className="rounded bg-white p-2 shadow">
                   {test.name}
                 </div>
               ))}

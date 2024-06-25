@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthProvider } from "../providers";
-import { Navbar } from "../_components/navbar";
+import { Navbar } from "../../components/navbar";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (

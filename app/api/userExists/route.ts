@@ -1,4 +1,4 @@
-import User from "@/app/models/user";
+import User from "@/app/models/User";
 import { connectMongoDB } from "@/lib/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     console.log(error);
     return NextResponse.json(
       { error: "Something went wrong" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

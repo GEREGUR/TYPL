@@ -36,14 +36,14 @@ function SignIn() {
           </h1>
           <input
             type="text"
-            placeholder="Login"
+            placeholder="Логин"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             className="w-full p-3 mb-4 bg-[#EAEAEA] rounded outline-none text-slate-700 placeholder-gray-500"
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 mb-4 bg-[#EAEAEA] rounded outline-none text-slate-700 placeholder-gray-500"

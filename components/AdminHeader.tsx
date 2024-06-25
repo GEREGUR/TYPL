@@ -1,16 +1,23 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const AdminHeader = () => {
+  const router = useRouter();
+  const handleSignOut = async () => {
+    await signOut({ redirect: false });
+    router.push("/admin/auth/sign-in");
+    console.log("Logout clicked");
+  };
+
   return (
-    <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Admin Panel</h1>
+    <header className="flex items-center justify-between bg-gray-800 p-4 text-white">
+      <h1 className="text-2xl font-bold">Панель Администратора</h1>
       <nav>
-        <Link className="px-4 py-2 hover:underline" href="/profile">
-          Profile
-        </Link>
-        <Link className="px-4 py-2 hover:underline" href="/logout">
-          Logout
-        </Link>
+        <button className="px-4 py-2 hover:underline" onClick={handleSignOut}>
+          Выйти
+        </button>
       </nav>
     </header>
   );

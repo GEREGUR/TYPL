@@ -1,4 +1,4 @@
-import User from "@/app/models/user";
+import User from "@/app/models/User";
 import { connectMongoDB } from "@/lib/mongodb";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -34,6 +34,7 @@ const authOptions: NextAuthOptions = {
             secondName: user.secondName,
             surname: user.surname,
             studyGroup: user.studyGroup,
+            role: user.role,
           };
         } catch (error) {
           console.log(error);

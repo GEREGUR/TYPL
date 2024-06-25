@@ -16,6 +16,7 @@ type Question = {
 };
 
 type Block = {
+  id: string;
   title: string;
   description: string;
 };
@@ -26,7 +27,7 @@ const CreateTest = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [blockId, setBlockId] = useState<string>("");
+  const [blocks, setBlocks] = useState<Block[]>([]);
 
   const handleAddQuestion = () => {
     setQuestions([
@@ -46,9 +47,8 @@ const CreateTest = () => {
         title,
         description,
         questions,
-        blockId,
       });
-      router.push("/tests"); // Redirect to the list of tests or another appropriate page
+      router.push("tests"); // Redirect to the list of tests or another appropriate page
     } catch (error) {
       console.error("Error creating test:", error);
     }
@@ -203,7 +203,7 @@ const CreateTest = () => {
               />
             </div>
           ))}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700">
               Выберите блок
             </label>
@@ -214,13 +214,16 @@ const CreateTest = () => {
               className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
               <option value="">Выберите блок</option>
-              {/* Populate with blocks */}
+
               {blocks.map((block) => (
                 <option key={block._id} value={block._id}>
                   {block.title}
                 </option>
               ))}
             </select>
+          </div> */}
+          <div className="">
+            {blocks?.map((block) => <div key={block.id}>{block.title}</div>)}
           </div>
         </div>
 

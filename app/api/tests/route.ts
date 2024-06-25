@@ -1,32 +1,43 @@
-// pages/api/tests/index.ts
-
-import { NextApiRequest, NextApiResponse } from "next";
+import { HttpStatusCode } from "axios";
 import { connectMongoDB } from "@/lib/mongodb";
-import Block from "@/app/models/Test";
 import Test from "@/app/models/Test";
+import { CreateTestDto } from "@/dto/create-test.dto";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();
-    const { title, description, questions, blockId } = req.body;
-
-    // Find the block by ID
-    const block = await Block.findById(blockId);
-    if (!block) {
-      return res.status(404).json({ error: "Block not found" });
+    const body: CreateTestDto = await req.json();
+    if (body.title) {
+      const test = await Test.create(body);
+      return NextResponse.json(
+        {
+          test,
+          message: "Тест был создан!",
+        },
+        {
+          status: HttpStatusCode.Created,
+        },
+      );
     }
-
-    // Create the test
-    const test = new Test({ title, description, questions });
-    await test.save();
-
-    // Add the test to the block
-    block.tests.push(test);
-    await block.save();
-
-    return res.status(201).json({ test, message: "Тест был создан!" });
+    return NextResponse.json(
+      { message: "Название теста отстутствует" },
+      { status: HttpStatusCode.BadRequest },
+    );
   } catch (error) {
-    console.error("Error creating test:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return NextResponse.json(
+      { message: error },
+      { status: HttpStatusCode.BadRequest },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    await connectMongoDB();
+    const tests = await Test.find();
+    return NextResponse.json({ data: tests });
+  } catch (error) {
+    return NextResponse.json({ error });
   }
 }

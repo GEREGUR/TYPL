@@ -23,14 +23,14 @@ const testSchema = new Schema(
   { timestamps: true },
 );
 
-const blockSchema = new Schema(
-  {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    tests: [testSchema],
-  },
-  { timestamps: true },
-);
+// const blockSchema = new Schema(
+//   {
+//     title: { type: String, required: true },
+//     description: { type: String, required: true },
+//     questions: [testSchema],
+//   },
+//   { timestamps: true },
+// );
 
-const Block = models.Block || mongoose.model("Block", blockSchema);
-export default Block;
+const Test = models.Test || mongoose.model("Test", testSchema);
+export default Test;

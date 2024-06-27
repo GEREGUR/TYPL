@@ -11,18 +11,18 @@ const AdminSidebar = () => {
               className="block px-4 py-2 hover:bg-gray-700"
               href="/admin/students"
             >
-              Учащиеся
+              Пользователи
             </Link>
           </li>
           <li>
             <Link
               className="block px-4 py-2 hover:bg-gray-700"
-              href="/admin/test-editor"
+              href="/admin/tests"
             >
               Редактор тестов
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               className="block px-4 py-2 hover:bg-gray-700"
               href="/admin/groups"
@@ -36,6 +36,14 @@ const AdminSidebar = () => {
               href="/admin/tech-map"
             >
               Техч. карта
+            </Link>
+          </li> */}
+          <li>
+            <Link
+              className="block px-4 py-2 hover:bg-gray-700"
+              href="/admin/test-list"
+            >
+              Список тестов
             </Link>
           </li>
         </ul>

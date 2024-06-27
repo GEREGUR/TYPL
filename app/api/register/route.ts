@@ -5,7 +5,7 @@ import { NextResponse, NextRequest } from "next/server";
 import User from "../../models/User";
 import bcrypt from "bcryptjs";
 
-console.log(NextResponse);
+export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest | Request) {
   try {
     const { name, secondName, surname, studyGroup, login, password, role } =

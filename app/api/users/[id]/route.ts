@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HttpStatusCode } from "axios";
 import { connectMongoDB } from "@/lib/mongodb";
-import Test from "@/app/models/Test";
-import { CreateTestDto } from "@/dto/create-test.dto";
+import User from "@/app/models/User";
 
 export const dynamic = "force-dynamic";
 export async function GET(
@@ -12,14 +11,14 @@ export async function GET(
   try {
     await connectMongoDB();
     const { id } = params;
-    const test = await Test.findById(id);
-    if (!test) {
+    const user = await User.findById(id);
+    if (!user) {
       return NextResponse.json(
-        { message: "Тест не найден" },
+        { message: "Пользователь не найден" },
         { status: HttpStatusCode.NotFound },
       );
     }
-    return NextResponse.json({ test });
+    return NextResponse.json({ user });
   } catch (error) {
     return NextResponse.json(
       { message: error },
@@ -35,21 +34,23 @@ export async function PUT(
   try {
     await connectMongoDB();
     const { id } = params;
-    const body: Partial<CreateTestDto> = await req.json();
-    const updatedTest = await Test.findByIdAndUpdate(id, body, { new: true });
-    if (!updatedTest) {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { role: "admin" },
+      { new: true },
+    );
+
+    if (!updatedUser) {
       return NextResponse.json(
-        { message: "Test not found" },
+        { message: "Пользователь не найден" },
         { status: HttpStatusCode.NotFound },
       );
     }
-    return NextResponse.json(
-      {
-        test: updatedTest,
-        message: "Test updated successfully!",
-      },
-      { status: HttpStatusCode.Accepted },
-    );
+
+    return NextResponse.json({
+      user: updatedUser,
+      message: "Роль пользователя успешно обновлена на администратора",
+    });
   } catch (error) {
     return NextResponse.json(
       { message: error },
@@ -65,16 +66,16 @@ export async function DELETE(
   try {
     await connectMongoDB();
     const { id } = params;
-    const deletedTest = await Test.findByIdAndDelete(id);
-    if (!deletedTest) {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
       return NextResponse.json(
-        { message: "Test not found" },
+        { message: "User not found" },
         { status: HttpStatusCode.NotFound },
       );
     }
     return NextResponse.json(
       {
-        message: "Test deleted successfully!",
+        message: "User deleted successfully!",
       },
       { status: HttpStatusCode.Ok },
     );

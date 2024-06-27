@@ -2,6 +2,7 @@ import User from "@/app/models/User";
 import { connectMongoDB } from "@/lib/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();

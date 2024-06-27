@@ -1,241 +1,178 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+interface Option {
+  text: string;
+  score: number;
+}
 
 interface Question {
   question: string;
-  type: "open" | "binary" | "multiple";
-  options?: string[];
-  answer?: string;
+  type: "multiple_choice" | "open";
+  options: Option[];
 }
 
-interface Block {
-  name: string;
+interface Test {
+  id: string;
   title: string;
   description: string;
   questions: Question[];
-  color: string;
 }
 
-const mockData: { [key: string]: Block } = {
-  101: {
-    name: "Block 1",
-    title: "Формирование культурно-бытовых ценностей",
-    description: "Организованный ли вы человек?",
-    questions: [
-      {
-        question:
-          "Умеете ли вы доводить начатое дело до конца, несмотря на возникающие препятствия?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Умеете ли вы настоять на принятом решении или вас можно легко переубедить?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question: "Любите ли вы брать на себя ответственность, руководить?",
-        type: "open",
-      },
-      {
-        question: "Пользуетесь ли вы уважением и доверием своих товарищей?",
-        type: "multiple",
-        options: ["да", "нет", "не уверен"],
-      },
-      { question: "Вы здоровы?", type: "binary", answer: "" },
-      {
-        question:
-          "Готовы ли вы трудиться от зари до зари, не получая немедленной отдачи?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question: "Любите ли вы общаться и работать с людьми?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Умеете ли вы убеждать других в правильности избранного пути?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question: "Понятны ли вам идеи и мысли других?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас опыт работы в той области, в которой вы хотите начать собственное дело?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Знакомы ли вы с действующими правилами налогообложения, калькуляции заработной платы, ведения бухгалтерского учёта?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Будет ли в вашем городе или области спрос на товар или услугу, которые вы собираетесь предложить?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас начальная подготовка в области маркетинга и финансов?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Хорошо ли идут дела в вашем городе (области) у других предпринимателей вашего профиля?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас на примете помещение, которое можно арендовать?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Располагаете ли вы достаточными финансовыми средствами, чтобы поддержать своё предприятие в течение первого года его существования?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас возможность привлечь к финансированию создаваемого вами предприятия родных и знакомых?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас на примете поставщики необходимых вам материалов?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Есть ли у вас на примете толковые специалисты, обладающие опытом и знаниями, которых вам не хватает?",
-        type: "binary",
-        answer: "",
-      },
-      {
-        question:
-          "Уверены ли вы в том, что иметь собственное дело - это главная ваша мечта?",
-        type: "binary",
-        answer: "",
-      },
-    ],
-    color: "bg-[#FED7AA]",
-  },
-  // Additional blocks can be added similarly
-};
-
-export default function TestPage({ params }: { params: { id: string } }) {
-  const block = mockData[params.id];
-
-  if (!block) {
-    notFound();
-  }
-
+export default function TestInProgressPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const [test, setTest] = useState<Test | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [userAnswers, setUserAnswers] = useState<
+    { answer: string; score: number }[]
+  >([]);
   const [currentAnswer, setCurrentAnswer] = useState<string>("");
+  const [currentScore, setCurrentScore] = useState<number>(0);
+  const [isLastQuestion, setIsLastQuestion] = useState(false); // Track if it's the last question
 
-  const currentQuestion = block.questions[currentQuestionIndex];
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchTest = async () => {
+      try {
+        const response = await fetch(`/api/tests/${params.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setTest(data.test);
+        } else {
+          notFound();
+        }
+      } catch (error) {
+        console.error("Failed to fetch test:", error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTest();
+  }, [params.id]);
 
   const handleNextQuestion = () => {
-    setUserAnswers([...userAnswers, currentAnswer]);
+    setUserAnswers([
+      ...userAnswers,
+      { answer: currentAnswer, score: currentScore },
+    ]);
     setCurrentAnswer("");
-    if (currentQuestionIndex < block.questions.length - 1) {
+    setCurrentScore(0);
+    if (currentQuestionIndex < test!.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setIsLastQuestion(true); // Mark that we're on the last question
     }
   };
 
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setCurrentAnswer(userAnswers[currentQuestionIndex - 1] || "");
+      const previousAnswer = userAnswers[currentQuestionIndex - 1] || {
+        answer: "",
+        score: 0,
+      };
+      setCurrentAnswer(previousAnswer.answer);
+      setCurrentScore(previousAnswer.score);
       setUserAnswers(userAnswers.slice(0, currentQuestionIndex - 1));
     }
   };
 
-  return (
-    <div
-      className={`${block.color} min-h-screen w-full flex flex-col items-center justify-start text-white p-6 md:p-12 lg:p-24 text-center gap-6 md:gap-8 lg:gap-12`}
-    >
-      <p className="text-xl md:text-2xl text-white">{block.title}</p>
-      {currentQuestionIndex === 0 && (
-        <h1 className="text-3xl md:text-5xl tracking-tight font-bold">
-          {block.description}
-        </h1>
-      )}
+  const { data: session } = useSession();
+  const user = session?.user;
 
-      <div className="bg-white/10 p-4 md:p-6 lg:p-8 rounded-lg shadow-xl border border-black/15 w-full md:w-3/4 lg:w-2/3 text-left">
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!test) {
+    return notFound();
+  }
+
+  const currentQuestion = test.questions[currentQuestionIndex];
+
+  console.log(userAnswers);
+
+  const handleSubmit = async () => {
+    const result = {
+      userId: user.id, // Replace with actual user ID
+      testId: params.id,
+      answers: userAnswers.map((answer, index) => ({
+        questionId: index.toString(),
+        answer: answer.answer,
+        score: answer.score,
+      })),
+    };
+    const res = await fetch("/api/test-results", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(result),
+    });
+
+    if (res.ok) {
+      alert("Test results saved successfully!");
+      router.push(`/client/test/${params.id}/result`);
+    } else {
+      alert("Error saving test results.");
+    }
+  };
+
+  const handleOptionSelect = (option: Option) => {
+    setCurrentAnswer(option.text);
+    setCurrentScore(option.score);
+  };
+
+  return (
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 px-4 pt-4">
+      <h1 className="mb-4 text-2xl font-bold">{test.title}</h1>
+      <div className="w-full rounded-lg border border-black/15 bg-white/10 p-4 text-center shadow-xl md:w-3/4 md:p-6 lg:w-2/3 lg:p-8">
         <p className="text-xl md:text-2xl lg:text-3xl">
           {currentQuestion.question}
         </p>
-        {currentQuestion.type === "binary" && (
-          <div className="mt-4 flex flex-col gap-4 items-center">
-            <Button
-              className={`w-full md:w-1/2 text-xl ${
-                currentAnswer === "да" ? "bg-green-700" : "bg-green-500"
-              } duration-300`}
-              variant={"ghost"}
-              onClick={() => setCurrentAnswer("да")}
-            >
-              Да
-            </Button>
-            <Button
-              className={`w-full md:w-1/2 text-xl ${
-                currentAnswer === "нет" ? "bg-red-700" : "bg-red-500"
-              } duration-300`}
-              variant={"ghost"}
-              onClick={() => setCurrentAnswer("нет")}
-            >
-              Нет
-            </Button>
+        {currentQuestion.type === "multiple_choice" && (
+          <div className="mt-4 flex flex-col items-center gap-4">
+            {currentQuestion.options.map((option, index) => (
+              <Button
+                key={index}
+                className={`w-1/2 text-xl ${
+                  currentAnswer === option.text
+                    ? "bg-gray-400 text-white"
+                    : "bg-white"
+                } duration-300`}
+                variant={"ghost"}
+                onClick={() => handleOptionSelect(option)}
+              >
+                {option.text}
+              </Button>
+            ))}
           </div>
         )}
         {currentQuestion.type === "open" && (
           <textarea
-            className="mt-4 w-full p-2 md:p-4 lg:p-6 rounded-md text-black"
+            className="mt-4 w-full rounded-md p-2 text-black md:p-4 lg:p-6"
             placeholder="Введите ваш ответ"
             value={currentAnswer}
             onChange={(e) => setCurrentAnswer(e.target.value)}
           />
         )}
-        {currentQuestion.type === "multiple" && (
-          <div className="mt-4 flex flex-col items-center gap-4">
-            {currentQuestion.options?.map((option, index) => (
-              <Button
-                key={index}
-                className={`w-1/2 text-xl ${
-                  currentAnswer === option ? "bg-blue-700" : "bg-blue-500"
-                } duration-300`}
-                variant={"ghost"}
-                onClick={() => setCurrentAnswer(option)}
-              >
-                {option}
-              </Button>
-            ))}
-          </div>
-        )}
       </div>
 
-      <div className="flex justify-between w-full px-4 md:px-24 mt-8">
+      <div className="mt-8 flex w-full justify-between px-4 md:px-24">
         <Button
-          className="bg-black/35 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
+          className="hovere:border-black/25 w-24 bg-black/35 text-xl shadow-md duration-300 hover:border-2 hover:text-black/15 hover:shadow-xl md:w-48 md:text-2xl"
           variant={"ghost"}
           onClick={handlePreviousQuestion}
           disabled={currentQuestionIndex === 0}
@@ -243,7 +180,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
           Назад
         </Button>
         <Button
-          className="bg-black/35 shadow-md w-24 md:w-48 text-xl md:text-2xl hover:text-black/55 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
+          className="hovere:border-black/25 w-24 bg-black/35 text-xl shadow-md duration-300 hover:border-2 hover:text-black/55 hover:shadow-xl md:w-48 md:text-2xl"
           variant={"ghost"}
           onClick={handleNextQuestion}
           disabled={!currentAnswer}
@@ -251,6 +188,16 @@ export default function TestPage({ params }: { params: { id: string } }) {
           Далее
         </Button>
       </div>
+      {isLastQuestion ? (
+        <div className="absolute top-1 mt-24 flex h-[80%] w-[80%] items-center justify-center rounded-xl bg-white">
+          <button
+            className="text-center text-3xl hover:underline"
+            onClick={handleSubmit}
+          >
+            Завершить
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

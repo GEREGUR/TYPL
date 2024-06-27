@@ -40,6 +40,12 @@ const CreateTest = () => {
     ]);
   };
 
+  const handleDeleteQuestion = (index: number) => {
+    const newQuestions = [...questions];
+    newQuestions.splice(index, 1);
+    setQuestions(newQuestions);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -91,17 +97,26 @@ const CreateTest = () => {
               key={index}
               className="mb-4 space-y-2 rounded-md border border-gray-200"
             >
-              <input
-                type="text"
-                placeholder="Текст вопроса"
-                value={question.question}
-                onChange={(e) => {
-                  const newQuestions = [...questions];
-                  newQuestions[index].question = e.target.value;
-                  setQuestions(newQuestions);
-                }}
-                className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+              <div className="mb-2 flex items-center justify-between">
+                <input
+                  type="text"
+                  placeholder="Текст вопроса"
+                  value={question.question}
+                  onChange={(e) => {
+                    const newQuestions = [...questions];
+                    newQuestions[index].question = e.target.value;
+                    setQuestions(newQuestions);
+                  }}
+                  className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleDeleteQuestion(index)}
+                  className="text-red-500"
+                >
+                  Удалить
+                </button>
+              </div>
               <select
                 value={question.type}
                 onChange={(e) => {
@@ -203,28 +218,6 @@ const CreateTest = () => {
               />
             </div>
           ))}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Выберите блок
-            </label>
-            <select
-              value={blockId}
-              onChange={(e) => setBlockId(e.target.value)}
-              required
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Выберите блок</option>
-
-              {blocks.map((block) => (
-                <option key={block._id} value={block._id}>
-                  {block.title}
-                </option>
-              ))}
-            </select>
-          </div> */}
-          <div className="">
-            {blocks?.map((block) => <div key={block.id}>{block.title}</div>)}
-          </div>
         </div>
 
         <button

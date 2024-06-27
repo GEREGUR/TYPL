@@ -4,6 +4,7 @@ import Test from "@/app/models/Test";
 import { CreateTestDto } from "@/dto/create-test.dto";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();

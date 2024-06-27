@@ -1,91 +1,85 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { notFound } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
+
+interface Option {
+  text: string;
+  score: number;
+}
 
 interface Question {
   question: string;
-  answer: string;
+  type: "multiple_choice" | "open";
+  options: Option[];
 }
 
-interface Block {
-  name: string;
+interface Test {
   title: string;
   description: string;
   questions: Question[];
-  color: string;
 }
 
-const mockData: { [key: string]: Block } = {
-  101: {
-    name: "Block 1",
-    title: "Формирование культурно-бытовых ценностей",
-    description: "Организованный ли вы человек?",
-    questions: [
-      { question: "Is this a test question?", answer: "да" && "нет" },
-    ],
-    color: "bg-[#FED7AA]",
-  },
-  102: {
-    name: "Block 2",
-    title: "Формирование культурно-бытовых ценностей",
-    description: "Организованный ли вы человек?",
-    questions: [{ question: "Is this a test question?", answer: "нет" }],
-    color: "bg-[#FECDD3]",
-  },
-  103: {
-    name: "Block 3",
-    title: "Формирование культурно-бытовых ценностей",
-    description: "Организованный ли вы человек?",
-    questions: [{ question: "Is this a test question?", answer: "да" }],
-    color: "bg-[#BFDBFE]",
-  },
-  104: {
-    name: "Block 4",
-    title: "Формирование культурно-бытовых ценностей",
-    description: "Организованный ли вы человек?",
-    questions: [{ question: "Is this a test question?", answer: "нет" }],
-    color: "bg-[#BBF7D0]",
-  },
-};
-
-// export async function generateStaticParams() {
-//   return Object.keys(mockData).map((id) => ({ id }));
-// }
-
 export default function TestPage({ params }: { params: { id: string } }) {
-  const block = mockData[params.id];
+  const [test, setTest] = useState<Test | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  if (!block) {
-    notFound();
+  useEffect(() => {
+    const fetchTest = async () => {
+      try {
+        const response = await fetch(`/api/tests/${params.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setTest(data.test);
+        } else {
+          notFound();
+        }
+      } catch (error) {
+        console.error("Failed to fetch test:", error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTest();
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center">
+        Загрузка...
+      </div>
+    );
   }
 
-  const handleStartTest = () => {
-    router.push(`${params.id}/inProgress`);
-  };
+  if (!test) {
+    return notFound();
+  }
 
   return (
     <div
-      className={`${block.color} min-h-screen w-full flex flex-col items-center justify-start text-white p-48 text-center gap-12`}
+      className={`${test} flex min-h-screen w-full flex-col items-center justify-start gap-12 p-48 text-center text-white`}
     >
-      <p className="text-2xl text-white">{block.title}</p>
-      <h1 className="text-5xl tracking-tight font-bold">{block.description}</h1>
+      <p className="text-2xl text-white">{test.description}</p>
+      <h1 className="text-5xl font-bold tracking-tight">{test.title}</h1>
       <Button
-        className="bg-black/15 shadow-md w-48 text-2xl hover:text-black/15 hover:shadow-xl duration-300 hover:border-2 hovere:border-black/25"
+        className="hovere:border-black/25 w-48 bg-black/15 text-2xl shadow-md duration-300 hover:border-2 hover:text-black/15 hover:shadow-xl"
         variant={"ghost"}
-        onClick={handleStartTest}
+        onClick={() => router.push(`${params.id}/inProgress`)}
       >
         Пройти
       </Button>
-      <p className="pb-24 font-semibold text-2xl">
+      {/* <p className="pb-24 text-2xl font-semibold">
         Пройдите тест и узнайте, насколько хорошо вы организованы в быту, умеете
         управлять финансами и ресурсами, а также заботиться о своем окружении.
         Этот тест поможет вам оценить вашу способность эффективно управлять
         своими делами и ресурсами, а также выявить области, в которых вы можете
         улучшить свои навыки хозяйственности.
-      </p>
+      </p> */}
     </div>
   );
 }

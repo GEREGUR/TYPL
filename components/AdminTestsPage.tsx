@@ -30,8 +30,8 @@ const AdminTestsPage = () => {
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const response = await axios.get("/api/admin/tests");
-        setTests(response.data);
+        const response = await axios.get("/api/tests");
+        setTests(response.data.data);
       } catch (error) {
         console.error("Не удалось получить список тестов:", error);
       }
@@ -61,7 +61,7 @@ const AdminTestsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tests.map((test) => (
+          {tests?.map((test) => (
             <TableRow key={test._id}>
               <TableCell>{test.title}</TableCell>
               <TableCell>{test.description}</TableCell>

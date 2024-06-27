@@ -11,6 +11,8 @@ export const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  // console.log(session);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -43,7 +45,7 @@ export const Navbar = () => {
   console.log(pathname);
 
   return (
-    <nav className="w-full h-18 md:h-16 px-4 bg-white font-bold text-xl flex justify-between items-center text-[#606060] shadow-md relative">
+    <nav className="h-18 relative flex w-full items-center justify-between bg-white px-4 text-xl font-bold text-[#606060] shadow-md md:h-16">
       {!pathname.includes("/auth") ? (
         <button onClick={() => router.back()} className="p-2">
           <svg
@@ -52,7 +54,7 @@ export const Navbar = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-10 h-10"
+            className="h-10 w-10"
           >
             <path
               strokeLinecap="round"
@@ -68,7 +70,7 @@ export const Navbar = () => {
         <span className="text-2xl">TYPL: Test your psychological level</span>
       </Link>
       {session.status === "authenticated" ? (
-        <div className="relative dropdown-button">
+        <div className="dropdown-button relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="p-2"
@@ -79,7 +81,7 @@ export const Navbar = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8"
+              className="h-8 w-8"
             >
               <path
                 strokeLinecap="round"
@@ -89,7 +91,7 @@ export const Navbar = () => {
             </svg>
           </button>
           {dropdownOpen && (
-            <div className="dropdown absolute right-0 mt-2 w-48 bg-gray-100 font-normal mt-4 shadow-lg rounded-md z-10">
+            <div className="dropdown absolute right-0 z-10 mt-2 mt-4 w-48 rounded-md bg-gray-100 font-normal shadow-lg">
               <button
                 onClick={handleProfileClick}
                 className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-200"

@@ -22,6 +22,14 @@ const AdminSidebar = () => {
               Редактор тестов
             </Link>
           </li>
+          <li>
+            <Link
+              className="block px-4 py-2 hover:bg-gray-700"
+              href="/admin/test-results"
+            >
+              Результаты тестов
+            </Link>
+          </li>
           {/* <li>
             <Link
               className="block px-4 py-2 hover:bg-gray-700"

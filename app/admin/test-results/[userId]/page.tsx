@@ -85,13 +85,19 @@ const TestResultsPage = () => {
     fetchResultsAndTests();
   }, [userId]);
 
+  const calculateSum = (answers: any[]) => {
+    return answers.reduce((sum, answer) => sum + answer.score, 0);
+  };
+
   return (
     <div className="container mx-auto pt-4">
       <h1 className="mb-4 text-2xl font-bold">Результаты тестов</h1>
       {Object.keys(resultsByTestId).map((testId) => (
         <div key={testId}>
           {tests[testId] && (
-            <h2 className="text-xl font-bold">Тест: "{tests[testId].title}"</h2>
+            <h2 className="text-xl font-bold">
+              Тест: &quot;{tests[testId].title}&quot;
+            </h2>
           )}
           <Table>
             <TableHeader>
@@ -111,6 +117,14 @@ const TestResultsPage = () => {
                   </TableRow>
                 )),
               )}
+              <TableRow>
+                <TableCell>
+                  Итого:&nbsp;
+                  <strong>
+                    {calculateSum(resultsByTestId[testId][0].answers)}
+                  </strong>
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </div>
